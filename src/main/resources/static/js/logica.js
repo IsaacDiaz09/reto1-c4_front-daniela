@@ -2,6 +2,14 @@ const urlbase = "http://localhost:8080/api/user";
 
 // Crea un nuvo usuario
 const crear = (nombre, email, pass, passConfirm) => {
+	if (verificaEmail(email) === true) {
+    mostrarMensaje(
+      "Error",
+      "Ups, el email proporcionado ya se encuentra en uso",
+      true
+    );
+    return;
+	}
   if (validaUsuario(nombre, email, pass, passConfirm) === false) {
     return;
   }
@@ -22,6 +30,7 @@ const crear = (nombre, email, pass, passConfirm) => {
     statusCode: {
       201: function () {
         mostrarMensaje("Confirmación", "Usuario  creado exitosamente");
+		limpiarCampos(nombre, email, pass, passConfirm);
       },
     },
   });
@@ -40,20 +49,7 @@ const mostrarMensaje = (titulo, cuerpo, error) => {
   $("#myToast").toast("show");
 };
 
-const iniciarSesion = () => {
-  const loading =
-    '<img src="https://icon-library.com/icon/spinner-icon-gif-10.html.html">';
-  $("#loading").html(loading);
-
-  setTimeout(() => {
-    funTest();
-  }, 1000);
-};
-
-const funTest = () => {};
-
 const validaUsuario = (nombre, email, pass, passConfirm) => {
-  console.log(verificaEmail(email));
   if (
     nombre.val().trim() === "" ||
     email.val().trim() === "" ||
@@ -75,33 +71,32 @@ const validaUsuario = (nombre, email, pass, passConfirm) => {
       "La contraseña debe tener minimo 8 caracteres",
       true
     );
-
     return false;
-  } else if (verificaEmail(email) === true) {
-    mostrarMensaje(
-      "Error",
-      "Ups, el email proporcionado ya se encuentra en uso",
-      true
-    );
-    return false;
-  }
+  } 
+  
 
   return true;
 };
 
-function verificaEmail(email) {
-  $.get(urlbase + "/" + email.val(), function (response) {
+function verificaEmail() {
+	const emailVal = $("#email").val();
+  $.get(urlbase + "/" + emailVal, function (response) {
     setVar(response);
   });
-  const bool = getVar();
-  return bool;
+  return getVar();
 }
 
 // Utils
 function setVar(variable) {
-  boolean = variable;
+	var boolean = variable;
 }
 function getVar() {
   return boolean;
 }
-var boolean = false;
+
+function limpiarCampos (nombre, email, pass, passConfirm) {
+	$(nombre).val("");
+	$(email).val("");
+	$(pass).val("");
+	$(passConfirm).val("");
+}
