@@ -87,8 +87,10 @@ function verificaEmail() {
 }
 
 // Utils
+var boolean = false;
+
 function setVar(variable) {
-	var boolean = variable;
+	 boolean = variable;
 }
 function getVar() {
   return boolean;

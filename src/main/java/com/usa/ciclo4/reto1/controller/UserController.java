@@ -43,7 +43,7 @@ public class UserController {
 	@GetMapping("/register")
 	public String formRegistro(Model model) {
 		log.info("Mostrando la pagina de registro de nuevo usuario");
-		return "vistas/crearCuenta";
+		return "vistas/register";
 	}
 
 	/**
