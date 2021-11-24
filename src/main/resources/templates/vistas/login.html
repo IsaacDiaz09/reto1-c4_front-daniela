@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El mercader - Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <script type="text/javascript" th:src="@{/js/logica.js}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+    <br>
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                <div class="d-table-cell align-middle">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="m-sm-4">
+                <div class="text-center">
+				<img th:src="@{/img/logo_login.png}" height="140" width="140" style="border-radius: 10%;">
+                </div>
+                 <form action="/login" class="was-validated" method="post">
+                        <div class="mb-3 mt-3">
+							<div th:if="${param.error}" class="alert alert-danger text-center" role="alert">No existe el usuario, verifique sus credenciales e intente nuevamente</div>
+
+                          <label for="Email" class="form-label">Correo:</label>
+                          <input type="email" class="form-control" id="email" placeholder="Ingrese el correo" name="email" required>
+                          <div class="valid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="pwd" class="form-label">Contraseña:</label>
+                          <input type="password" class="form-control" id="password" placeholder="Ingrese la contraseña" name="password" required>
+                          <div class="valid-feedback"></div>
+                        </div>
+                            
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-lg btn-primary">Ingresar</a>
+                    </div>
+                    <br>
+                    <span class="letra-gris">¿No tienes una cuenta?</span>
+                    <a href="/register">Crea tu cuenta aquí</a>
+                    <br><br>
+                    
+            <div id="loading"></div>
+            </div>
+            </form>
+        
+        <div class="position-fixed top-0 end-0">
+            <div id="myToast" class="toast" role="alert">
+                <div class="toast-header">
+                    <h4 id="titulomensaje"></h4>
+                </div>
+                <div class="toast-body">
+                    <p id="cuerpomensaje"></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

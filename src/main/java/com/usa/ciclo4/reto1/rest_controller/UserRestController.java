@@ -34,13 +34,9 @@ public class UserRestController {
 	@PostMapping("/new")
 	@ResponseStatus(HttpStatus.CREATED)
 	private void guardarUsuario(@RequestBody User user) {
-		try {
-			log.info("Guardando un nuevo usuario en la DB");
-			user.setConfirmPassword(user.getPassword());
-			service.createUser(user);
-		} catch (Exception ex) {
-			log.error(ex.getMessage());
-		}
+		log.info("Guardando un nuevo usuario en la DB");
+		service.createUser(user);
+
 	}
 
 	@GetMapping("/{email}")

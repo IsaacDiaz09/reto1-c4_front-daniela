@@ -1,7 +1,6 @@
 package com.usa.ciclo4.reto1.service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,6 @@ public class UserServiceImpl implements UserService {
 	private UserRepository repo;
 
 	@Override
-	public boolean passwordMatch(User user) throws Exception {
-		if (!user.getPassword().equals(user.getConfirmPassword())) {
-			throw new Exception("Las contraseñas no coinciden");
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isEmailNotInUse(User user) throws Exception {
 		Optional<User> userByEmail = repo.buscarPorEmail(user.getEmail());
 		if (userByEmail.isPresent()) {
@@ -35,22 +26,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) throws Exception {
-		if (isValidEmail(user) && isValidPassword(user)) {
-			if (passwordMatch(user) && isEmailNotInUse(user)) {
-				repo.guardarUsuario(user);
-			}
-		}
-	}
-
-	@Override
-	public boolean isValidEmail(User user) {
-		return (!user.getEmail().trim().equals("") && !Objects.isNull(user.getEmail()));
-	}
-
-	@Override
-	public boolean isValidPassword(User user) {
-		return (!user.getPassword().trim().equals("") && !Objects.isNull(user.getPassword()));
+	public void createUser(User user) {
+		repo.guardarUsuario(user);
 	}
 
 	@Override
@@ -66,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		userNotFound.setEmail(email);
 		userNotFound.setPassword(password);
 		userNotFound.setName("NO DEFINIDO");
-		
+
 		if (userAux.isPresent()) {
 			return userAux.get();
 

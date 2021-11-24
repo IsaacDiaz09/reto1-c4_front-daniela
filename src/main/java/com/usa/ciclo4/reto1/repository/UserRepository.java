@@ -1,7 +1,6 @@
 package com.usa.ciclo4.reto1.repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,6 @@ public class UserRepository {
 
 	@Transactional
 	public void guardarUsuario(User user) {
-		if (Objects.isNull(user.getConfirmPassword())) {
-			user.setConfirmPassword(user.getPassword());
-		}
 		repo.save(user);
 	}
 }

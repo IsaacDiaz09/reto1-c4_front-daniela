@@ -1,45 +1,39 @@
-const urlbase = 'http://localhost:8080/api/Reto1';
+const urlbase = 'http://localhost:8080/api/user';
 
-const crear = () => {
-    //document.getElementById('txtNombre').value;
-    const nombre = $('#txtNombre').val();
-    const email = $('#txtEmail').val();
-    const password = $('#txtPassword').val();
-    const confirmar = $('#txtConfirmarPassword').val();
+// Crea un nuvo usuario
+const crear = (nombre,email,pass,passConfirm) => {
 
-    if (password !== confirmar) {
+    if (pass.val() !== passConfirm.val()) {
         mostrarMensaje('Error', 'La contraseñas no coinciden', true);
         return;
-    } else if (password.length < 6) {
-        mostrarMensaje('Error', 'La clave debe tener minimo 6 caracteres', true);
-        return;
-    }
+    } else if (pass.val().length < 8){
+		mostrarMensaje('Error','La clave debe tener minimo 8 caracteres',true);
+		return;
+	}
 
-    const payload = {
-        nombre: nombre,
-        email: email,
-        password: password
-    };
-
+	const user = 
+	{
+		name:nombre.val(),
+		email:email.val(),
+		password:pass.val()
+	}
     $.ajax({
-        url: `${urlbase}/new`,
+        url: urlbase + "/new",
         type: "POST",
         dataType: 'json',
         headers: {
             "Content-Type": "application/json"
         },
-        data: JSON.stringify(payload),
+        data: JSON.stringify(user),
         statusCode: {
             201: function () {
                 mostrarMensaje('Confirmacion', 'Usuario  creado exitosamente');
-                //alert('Usuario Creado');
-            }
+               }
         },
     });
 }
 
 const mostrarMensaje = (titulo, cuerpo, error) => {
-    //console.log("error",error);
     document.getElementById("titulomensaje").innerHTML = titulo;
     $("#cuerpomensaje").html(cuerpo);
     $("#myToast").removeClass();
@@ -58,7 +52,7 @@ const iniciarSesion = () => {
 
     setTimeout(()=>{
         autenticar();
-    }, 2000);
+    }, 500);
 }
 
 const autenticar = ()=>{
