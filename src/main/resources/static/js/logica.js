@@ -2,14 +2,14 @@ const urlbase = "http://localhost:8080/api/user";
 
 // Crea un nuvo usuario
 const crear = (nombre, email, pass, passConfirm) => {
-	if (verificaEmail(email) === true) {
+  if (verificaEmail(email) === true) {
     mostrarMensaje(
       "Error",
       "Ups, el email proporcionado ya se encuentra en uso",
       true
     );
     return;
-	}
+  }
   if (validaUsuario(nombre, email, pass, passConfirm) === false) {
     return;
   }
@@ -30,7 +30,7 @@ const crear = (nombre, email, pass, passConfirm) => {
     statusCode: {
       201: function () {
         mostrarMensaje("Confirmación", "Usuario  creado exitosamente");
-		limpiarCampos(nombre, email, pass, passConfirm);
+        limpiarCampos(nombre, email, pass, passConfirm);
       },
     },
   });
@@ -50,6 +50,9 @@ const mostrarMensaje = (titulo, cuerpo, error) => {
 };
 
 const validaUsuario = (nombre, email, pass, passConfirm) => {
+  const regExEmail =
+    /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/;
+
   if (
     nombre.val().trim() === "" ||
     email.val().trim() === "" ||
@@ -72,14 +75,20 @@ const validaUsuario = (nombre, email, pass, passConfirm) => {
       true
     );
     return false;
-  } 
-  
+  } else if (regExEmail.test(email.val()) === false) {
+    mostrarMensaje(
+      "Error",
+      "El formato de email es inválido, verifiquelo e intente de nuevo",
+      true
+    );
+    return false;
+  }
 
   return true;
 };
 
 function verificaEmail() {
-	const emailVal = $("#email").val();
+  const emailVal = $("#email").val();
   $.get(urlbase + "/" + emailVal, function (response) {
     setVar(response);
   });
@@ -90,15 +99,15 @@ function verificaEmail() {
 var boolean = false;
 
 function setVar(variable) {
-	 boolean = variable;
+  boolean = variable;
 }
 function getVar() {
   return boolean;
 }
 
-function limpiarCampos (nombre, email, pass, passConfirm) {
-	$(nombre).val("");
-	$(email).val("");
-	$(pass).val("");
-	$(passConfirm).val("");
+function limpiarCampos(nombre, email, pass, passConfirm) {
+  $(nombre).val("");
+  $(email).val("");
+  $(pass).val("");
+  $(passConfirm).val("");
 }
